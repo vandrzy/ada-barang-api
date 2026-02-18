@@ -2,6 +2,7 @@ import express from 'express';
 import morgan from 'morgan';
 import cors from 'cors';
 import dotenv from 'dotenv';
+import connectDB from './config/db';
 dotenv.config();
 
 const PORT = process.env.PORT;
@@ -11,8 +12,11 @@ app.use(morgan('dev'));
 app.use(cors());
 
 
-
-app.listen(PORT, () => {
-    console.log("Berjalan pada server: ", PORT);
-    
+connectDB().then(() => {
+    app.listen(PORT, () => {
+        console.log("Berjalan pada server: ", PORT);
+    })
+}).catch((error) => {
+    console.error('Error: ', error.name);
+    console.error(error.message);
 })
