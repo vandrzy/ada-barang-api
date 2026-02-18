@@ -3,6 +3,7 @@ import morgan from 'morgan';
 import cors from 'cors';
 import dotenv from 'dotenv';
 import connectDB from './config/db';
+import globalErrorHandler from './util/globalErrorHandler';
 dotenv.config();
 
 const PORT = process.env.PORT;
@@ -12,6 +13,7 @@ app.use(morgan('dev'));
 app.use(cors());
 
 
+app.use(globalErrorHandler);
 connectDB().then(() => {
     app.listen(PORT, () => {
         console.log("Berjalan pada server: ", PORT);
