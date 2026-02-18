@@ -4,4 +4,6 @@ class AppError extends Error{
         super(message);
         this.statusCode = statusCode;
     }
-}
+};
+
+export default AppError;

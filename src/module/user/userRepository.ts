@@ -8,3 +8,7 @@ export const createUser = async (
 export const getUserByUsername = async (username: string) => {
     return await User.findOne({username});
 }
+
+export const getUserByEmail = async (email: string) => {
+    return await User.findOne({email})
+}
