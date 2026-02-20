@@ -1,11 +1,11 @@
 import jwt, {JwtPayload} from 'jsonwebtoken';
 
-interface AccessTokenPayload extends JwtPayload{
+export interface AccessTokenPayload extends JwtPayload{
     username: string;
     role: string;
 };
 
-interface RefreshTokenPayload extends JwtPayload{
+export interface RefreshTokenPayload extends JwtPayload{
     username: string;
 };
 
