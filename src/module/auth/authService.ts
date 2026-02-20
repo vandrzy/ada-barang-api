@@ -50,6 +50,11 @@ export const refresh = async (oldRefreshToken: string): Promise<refreshResponse>
     }
 }
 
+export const logout = async (refreshToken: string)=> {
+    const tokenHash = generateTokenHash(refreshToken);
+    await usedToken(tokenHash, new Date());
+}
+
 const generateTokenHash = (token: string): string => {
     return crypto.createHash('sha256').update(token).digest('hex');
 }

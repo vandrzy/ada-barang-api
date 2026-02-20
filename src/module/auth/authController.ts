@@ -31,3 +31,12 @@ export const refresh = asyncHandler(async(req: Request, res: Response,)=> {
     });
     res.status(200).json(successResponse('Berhasil memperoleh token', accessToken));
 })
+
+export const logout = asyncHandler(async(req: Request, res: Response)=> {
+    const refreshToken = req.cookies.refreshToken;
+    if (refreshToken){
+        authService.logout(refreshToken);
+    };
+    res.clearCookie('refreshToken');
+    res.status(204).end();
+})

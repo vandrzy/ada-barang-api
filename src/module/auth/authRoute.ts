@@ -7,5 +7,5 @@ const route = Router();
 route.post('/signup', validateBody(registrasiBody), authController.registration);
 route.post('/login', validateBody(loginBody), authController.login);
 route.post('/refresh', authController.refresh);
-
+route.post('/logout', authController.logout);
 export default route;
