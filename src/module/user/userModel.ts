@@ -3,6 +3,7 @@ import mongoose from "mongoose";
 export interface UserInterface{
     _id: mongoose.Types.ObjectId;
     username: string;
+    password: string;
     email: string;
     role: string;
     createdAt: Date;
@@ -34,6 +35,6 @@ const userShema = new mongoose.Schema({
     timestamps: true
 })
 
-const User = mongoose.model('User', userShema);
+const User = mongoose.model<UserInterface>('User', userShema);
 
 export default User;

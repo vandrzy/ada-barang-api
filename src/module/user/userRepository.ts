@@ -5,10 +5,10 @@ export const createUser = async (
     return await User.create(data);
 }
 
-export const getUserByUsername = async (username: string) => {
+export const getUserByUsername = async (username: string): Promise<UserInterface | null> => {
     return await User.findOne({username});
 }
 
-export const getUserByEmail = async (email: string) => {
+export const getUserByEmail = async (email: string): Promise<UserInterface|null> => {
     return await User.findOne({email})
 }
