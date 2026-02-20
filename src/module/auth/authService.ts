@@ -1,10 +1,10 @@
 import bcrypt from 'bcrypt';
 import { createUser, getUserByEmail, getUserByUsername } from '../user/userRepository';
 import AppError from '../../util/appError';
-import { generateAccessToken, generateRefreshToken } from '../../util/jwt';
+import { generateAccessToken, generateRefreshToken, validateRefreshToken } from '../../util/jwt';
 import crypto from 'crypto';
-import { createRefreshToken } from './refreshToken/refreshTokenRepository';
-import { loginResponse } from './authDto';
+import { createRefreshToken, findRefreshToken, usedToken } from './refreshToken/refreshTokenRepository';
+import { loginResponse, refreshResponse } from './authDto';
 
 const SALT_ROUNDS = 10
 export const registration = async (username: string, password: string, email: string) => {
@@ -28,7 +28,26 @@ export const login = async (username: string, password: string): Promise<loginRe
         refreshToken,
         accessToken
     };
+}
 
+export const refresh = async (oldRefreshToken: string): Promise<refreshResponse> => {
+    const oldRefreshTokenHash = generateTokenHash(oldRefreshToken);
+    const token = await findRefreshToken(oldRefreshTokenHash);
+    if (!token || token.revokedAt) throw new AppError('Token tidak valid', 403);
+    const payload = validateRefreshToken(oldRefreshToken);
+    const user = await getUserByUsername(payload.username);
+    if (!user || user.username !== token.userId.username) throw new AppError('Token tidak valid', 403);
+    const newRefreshToken = generateRefreshToken(user.username);
+    const newRefreshTokenHash = generateTokenHash(newRefreshToken);
+    await Promise.all([
+        usedToken(oldRefreshTokenHash, new Date(), newRefreshTokenHash),
+        createRefreshToken({userId: user._id, tokenHash: newRefreshTokenHash, expiredAt: new Date(Date.now() + 50*60*60*1000)})
+    ])
+    const newAccessToken = generateAccessToken(user.username, user.role);
+    return {
+        refreshToken: newRefreshToken,
+        accessToken: newAccessToken
+    }
 }
 
 const generateTokenHash = (token: string): string => {

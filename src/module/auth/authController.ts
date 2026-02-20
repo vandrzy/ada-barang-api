@@ -20,3 +20,14 @@ export const login = asyncHandler(async (req: Request<{}, {},loginRequest>, res:
     });
     res.status(200).json(successResponse('Berhasil login', {login, accessToken}));
 })
+
+export const refresh = asyncHandler(async(req: Request, res: Response,)=> {
+    const oldRefreshToken = req.cookies.refreshToken;
+    const {refreshToken, accessToken} = await authService.refresh(oldRefreshToken);
+    res.cookie('refreshToken', refreshToken, {
+        httpOnly: true,
+        secure: process.env.NODE_ENV === 'prod',
+        sameSite: 'strict'
+    });
+    res.status(200).json(successResponse('Berhasil memperoleh token', accessToken));
+})

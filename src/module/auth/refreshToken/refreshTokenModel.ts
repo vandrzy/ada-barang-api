@@ -4,8 +4,8 @@ export interface RefreshTokenInterface{
     userId: mongoose.Types.ObjectId;
     tokenHash: string;
     expiredAt: Date;
-    revokedAt: Date;
-    replacedByToken: string;
+    revokedAt?: Date;
+    replacedByToken?: string;
 };
 
 const refreshTokenSchema = new mongoose.Schema({
