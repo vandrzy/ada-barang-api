@@ -4,6 +4,7 @@ export interface CategoryInterface{
     _id: mongoose.Types.ObjectId;
     name: string;
     isActive: string;
+    shortCode: string;
     createdAt: Date;
     updatedAt: Date;
 }
@@ -17,6 +18,12 @@ const categoryShcema = new mongoose.Schema({
         type: Boolean,
         required: true,
         default: true
+    },
+    shortCode: {
+        type: String,
+        unique: true,
+        required: true, 
+        index: true
     }
 },{
     timestamps: true

@@ -6,8 +6,9 @@ import * as categoryController from './categoryController';
 
 const route = Router();
 
-route.post('/', loginMiddleware.authMiddleware, loginMiddleware.authorizeMiddleware(['admin']), requestMiddleware.validateBody(categoryRequest.createCategoryRequest), categoryController.createCategory)
-route.get('/', loginMiddleware.authMiddleware, loginMiddleware.authorizeMiddleware(['admin']), requestMiddleware.validateQuery(categoryRequest.getAllCategoriesQuery), categoryController.getAllCategories)
+route.post('/', loginMiddleware.authMiddleware, loginMiddleware.authorizeMiddleware(['admin']), requestMiddleware.validateBody(categoryRequest.createCategoryRequest), categoryController.createCategory);
+route.get('/', loginMiddleware.authMiddleware, loginMiddleware.authorizeMiddleware(['admin']), requestMiddleware.validateQuery(categoryRequest.getAllCategoriesQuery), categoryController.getAllCategories);
+route.get('/search', loginMiddleware.authMiddleware, loginMiddleware.authorizeMiddleware(['admin']), requestMiddleware.validateQuery(categoryRequest.getCategoriesByNameQuery), categoryController.getCategoriesByName);
 
 
 export default route;

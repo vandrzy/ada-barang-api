@@ -11,10 +11,19 @@ export interface GetAllCategoriesRequest{
     offset: number;
 }
 
-export interface GetAllCategoriesResponse{
+export interface CategoriesResponse{
+    search?: string;
     sortBy: string;
     order: string;
     limit: number;
     offset: number;
     categories: CategoryInterface[];
+}
+
+export interface GetCategoriesByNameRequest{
+    name: string;
+    sortBy: string;
+    order: string;
+    limit: number;
+    offset: number;
 }

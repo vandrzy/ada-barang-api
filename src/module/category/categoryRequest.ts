@@ -10,3 +10,11 @@ export const getAllCategoriesQuery = z.object({
     limit: z.coerce.number('limit harus angka').int().min(1).max(100).optional().default(5),
     offset: z.coerce.number('offset harus angka').int().min(0).optional().default(0)
 })
+
+export const getCategoriesByNameQuery = z.object({
+    name: z.string().min(3).max(10),
+    sortBy: z.enum(['name', 'createdAt']).optional().default('name'),
+    order: z.enum(['asc', 'desc']).optional().default('asc'),
+    limit: z.coerce.number('limit harus angka').int().min(1).max(100).optional().default(5),
+    offset: z.coerce.number('offset harus angka').int().min(0).optional().default(0)
+})
