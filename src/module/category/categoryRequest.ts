@@ -4,6 +4,10 @@ export const createCategoryRequest = z.object({
     name: z.string().min(3).max(10)
 });
 
+export const deleteCategoryQuery = z.object({
+    shortCode: z.string().min(7).max(10)
+});
+
 export const getAllCategoriesQuery = z.object({
     name: z.string().min(3).max(10).optional(),
     isActive: z.boolean().optional().default(true),

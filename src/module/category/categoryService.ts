@@ -25,6 +25,11 @@ export const getAllCategories = async(name: string| undefined, isActive: boolean
     };
 }
 
+export const deleteCategory = async(shortCode: string) => {
+    const deletedCategory = await categoryRepository.deleteCategory(shortCode);
+    if (!deletedCategory) throw new AppError('Kategori tidak ada', 404);
+}
+
 const generateShortCode = async(): Promise<string> => {
     let shortCode: string;
     let exist = true;

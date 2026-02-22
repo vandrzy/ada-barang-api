@@ -8,5 +8,6 @@ const route = Router();
 
 route.post('/', loginMiddleware.authMiddleware, loginMiddleware.authorizeMiddleware(['admin']), requestMiddleware.validateBody(categoryRequest.createCategoryRequest), categoryController.createCategory);
 route.get('/', loginMiddleware.authMiddleware, loginMiddleware.authorizeMiddleware(['admin']), requestMiddleware.validateQuery(categoryRequest.getAllCategoriesQuery), categoryController.getAllCategories);
+route.delete('/', loginMiddleware.authMiddleware, loginMiddleware.authorizeMiddleware(['admin']), requestMiddleware.validateQuery(categoryRequest.deleteCategoryQuery), categoryController.deleteCategory);
 
 export default route;

@@ -13,6 +13,10 @@ export interface GetAllCategoriesRequest{
     offset: number;
 }
 
+export interface DeleteCategoryRequest{
+    shortCode : string;
+}
+
 export interface CategoriesResponse{
     search?: string;
     isActive: boolean;
