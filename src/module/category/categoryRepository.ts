@@ -26,3 +26,7 @@ export const checkCategory = async (shortCode: string): Promise<boolean> => {
 export const deleteCategory = async (shortCode: string) => {
     return await Category.findOneAndUpdate({shortCode}, {isActive: false});
 }
+
+export const updateCategory = async (shortCode:string, name: string) => {
+    return await Category.findOneAndUpdate({shortCode}, {name}, {new: true});
+}

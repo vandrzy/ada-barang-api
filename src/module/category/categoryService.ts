@@ -30,6 +30,14 @@ export const deleteCategory = async(shortCode: string) => {
     if (!deletedCategory) throw new AppError('Kategori tidak ada', 404);
 }
 
+export const updateCategory = async(shortCode: string, name: string) => {
+    const checkCategory = await categoryRepository.getCategoryByName(name);
+    if (checkCategory && checkCategory.shortCode !== shortCode) throw new AppError('Nama sudah digunakan', 400);
+    const updatedCategory = await categoryRepository.updateCategory(shortCode, name);
+    if (!updatedCategory) throw new AppError('Kategori tidak ada', 404);
+    return updatedCategory;
+}
+
 const generateShortCode = async(): Promise<string> => {
     let shortCode: string;
     let exist = true;

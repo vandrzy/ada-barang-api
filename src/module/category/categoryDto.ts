@@ -4,6 +4,10 @@ export interface CreateCategoryRequest{
     name: string;
 }
 
+export interface UpdateCategoryRequest{
+    name: string;
+}
+
 export interface GetAllCategoriesRequest{
     name: string| undefined;
     isActive: boolean;
@@ -13,7 +17,7 @@ export interface GetAllCategoriesRequest{
     offset: number;
 }
 
-export interface DeleteCategoryRequest{
+export interface ShortCodeCategoryRequest{
     shortCode : string;
 }
 

@@ -8,6 +8,14 @@ export const deleteCategoryQuery = z.object({
     shortCode: z.string().min(7).max(10)
 });
 
+export const updateCategoryQuery = z.object({
+    shortCode: z.string().min(7).max(10)
+});
+
+export const updateCategoryRequest = z.object({
+    name: z.string().min(3).max(10).optional()
+})
+
 export const getAllCategoriesQuery = z.object({
     name: z.string().min(3).max(10).optional(),
     isActive: z.boolean().optional().default(true),
@@ -16,3 +24,4 @@ export const getAllCategoriesQuery = z.object({
     limit: z.coerce.number('limit harus angka').int().min(1).max(100).optional().default(5),
     offset: z.coerce.number('offset harus angka').int().min(0).optional().default(0)
 })
+
