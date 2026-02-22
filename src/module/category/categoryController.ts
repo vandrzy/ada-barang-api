@@ -22,6 +22,12 @@ export const deleteCategory = asyncHandler(async(req: Request, res: Response) =>
     res.status(200).json(successResponse('Berhasil menghapus kategori'));
 })
 
+export const activateCategory = asyncHandler(async(req: Request, res: Response) => {
+    const {shortCode} = req.validatedQuery as ShortCodeCategoryRequest;
+    await categoryService.activateCategory(shortCode);
+    res.status(200).json(successResponse('Berhasil mengaktifkan kategori'));
+})
+
 export const updateCategory = asyncHandler(async(req: Request<{}, {}, UpdateCategoryRequest>, res: Response) => {
     const {shortCode} = req.validatedQuery as ShortCodeCategoryRequest;
     const name = req.body.name.toLowerCase();
