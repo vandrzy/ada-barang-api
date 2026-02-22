@@ -2,6 +2,7 @@ import AppError from '../../util/appError';
 import { CategoriesResponse } from './categoryDto';
 import * as categoryRepository from './categoryRepository';
 import {nanoid} from 'nanoid';
+
 export const createCategory = async (name: string) => {
     const checkCategory = await categoryRepository.getCategoryByName(name);
     if (checkCategory) throw new AppError('Kategori sudah ada', 400);
@@ -10,29 +11,18 @@ export const createCategory = async (name: string) => {
     return category;
 }
 
-export const gelAllCategories = async(sortBy: string, order: string, limit: number, offset: number): Promise<CategoriesResponse> => {
-    const categories = await categoryRepository.gelAllCategories(sortBy, order, limit,  offset);
+export const getAllCategories = async(name: string| undefined, isActive: boolean, sortBy: string, order: string, limit: number, offset: number): Promise<CategoriesResponse> => {
+    const categories = await categoryRepository.getAllCategories(name, isActive, sortBy, order, limit,  offset);
     if (categories.length === 0) throw new AppError('Kategori belum ada', 404);
     return {
+        search: name,
+        isActive,
         sortBy,
         order,
         limit,
         offset,
         categories
     };
-}
-
-export const getCategoriesByName = async (name: string, sortBy: string, order: string, limit: number, offset: number): Promise<CategoriesResponse> => {
-    const categories = await categoryRepository.getCategoriesByName(name, sortBy, order, limit, offset);
-    if (categories.length === 0) throw new AppError('Ketegori tidak ada', 404);
-    return{
-        search: name,
-        sortBy,
-        order, 
-        limit, 
-        offset,
-        categories
-    }
 }
 
 const generateShortCode = async(): Promise<string> => {

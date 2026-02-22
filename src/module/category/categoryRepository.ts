@@ -9,14 +9,10 @@ export const getCategoryByName = async(name: string): Promise<CategoryInterface|
     return await Category.findOne({name: {$regex: `^${name}$`, $options: 'i'}});
 }
 
-export const gelAllCategories = async(sortBy: string, order: string, limit: number, offset: number): Promise<CategoryInterface[]> => {
+export const getAllCategories = async(name: string| undefined, isActive: boolean, sortBy: string, order: string, limit: number, offset: number): Promise<CategoryInterface[]> => {
     const orderType = order as SortOrder
-    return await Category.find().sort({[sortBy]: orderType}).limit(limit).skip(offset);
-}
-
-export const getCategoriesByName = async(name: string,sortBy: string, order: string, limit: number, offset: number): Promise<CategoryInterface[]> => {
-    const orderType = order as SortOrder;
-    return await Category.find({name: {$regex: name, $options: 'i'}}).sort({[sortBy]: orderType}).limit(limit).skip(offset);
+    const filter = name ? {name: {$regex: name, $options: 'i'}, isActive} : {isActive};
+    return await Category.find(filter).sort({[sortBy]: orderType}).limit(limit).skip(offset);
 }
 
 export const getCategoryByShortCode = async (shortCode: string) => {
@@ -25,4 +21,8 @@ export const getCategoryByShortCode = async (shortCode: string) => {
 
 export const checkCategory = async (shortCode: string): Promise<boolean> => {
     return !!(await Category.exists({shortCode}));
+}
+
+export const deleteCategory = async (name: string) => {
+    await Category.findOneAndUpdate({name}, {isActive: false});
 }

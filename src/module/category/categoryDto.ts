@@ -5,6 +5,8 @@ export interface CreateCategoryRequest{
 }
 
 export interface GetAllCategoriesRequest{
+    name: string| undefined;
+    isActive: boolean;
     sortBy: string;
     order: string;
     limit: number;
@@ -13,17 +15,10 @@ export interface GetAllCategoriesRequest{
 
 export interface CategoriesResponse{
     search?: string;
+    isActive: boolean;
     sortBy: string;
     order: string;
     limit: number;
     offset: number;
     categories: CategoryInterface[];
-}
-
-export interface GetCategoriesByNameRequest{
-    name: string;
-    sortBy: string;
-    order: string;
-    limit: number;
-    offset: number;
 }
