@@ -28,5 +28,5 @@ export const deleteCategory = async (shortCode: string) => {
 }
 
 export const updateCategory = async (shortCode:string, name: string) => {
-    return await Category.findOneAndUpdate({shortCode}, {name}, {new: true});
+    return await Category.findOneAndUpdate({shortCode, isActive: true}, {name}, {new: true});
 }

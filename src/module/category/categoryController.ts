@@ -26,5 +26,5 @@ export const updateCategory = asyncHandler(async(req: Request<{}, {}, UpdateCate
     const {shortCode} = req.validatedQuery as ShortCodeCategoryRequest;
     const name = req.body.name.toLowerCase();
     const result = await categoryService.updateCategory(shortCode, name);
-    res.status(200).json(successResponse('Berhasil menghapus kategori', result));
+    res.status(200).json(successResponse('Berhasil mengedit kategori', result));
 })
