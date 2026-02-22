@@ -6,7 +6,7 @@ export const authMiddleware = (req: Request, res: Response, next: NextFunction)=
     const authorization = req.headers.authorization;
     if (!authorization) throw new AppError('Belum login', 401);
     const [type, token] = authorization.split(' ');
-    if (type === 'Bearer' || !token) throw new AppError('Belum login', 401);
+    if (type !== 'Bearer' || !token) throw new AppError('Belum login', 401);
     try {
         const user = validateAccessToken(token);
         req.user = user;

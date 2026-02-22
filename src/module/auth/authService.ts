@@ -56,7 +56,8 @@ export const logout = async (refreshToken: string)=> {
 }
 
 export const makeAdmin = async() => {
-    const data = {username: 'admin', email: 'admin@adabarang.com', password: 'admin', role: 'admin'};
+    const passwordHash = await bcrypt.hash('admin', SALT_ROUNDS);
+    const data = {username: 'admin2', email: 'admin2@adabarang.com', password: passwordHash, role: 'admin'};
     return await createAdmin(data);
 }
 
