@@ -1,5 +1,5 @@
 import bcrypt from 'bcrypt';
-import { createUser, getUserByEmail, getUserByUsername } from '../user/userRepository';
+import { createAdmin, createUser, getUserByEmail, getUserByUsername } from '../user/userRepository';
 import AppError from '../../util/appError';
 import { generateAccessToken, generateRefreshToken, validateRefreshToken } from '../../util/jwt';
 import crypto from 'crypto';
@@ -53,6 +53,11 @@ export const refresh = async (oldRefreshToken: string): Promise<refreshResponse>
 export const logout = async (refreshToken: string)=> {
     const tokenHash = generateTokenHash(refreshToken);
     await usedToken(tokenHash, new Date());
+}
+
+export const makeAdmin = async() => {
+    const data = {username: 'admin', email: 'admin@adabarang.com', password: 'admin', role: 'admin'};
+    return await createAdmin(data);
 }
 
 const generateTokenHash = (token: string): string => {

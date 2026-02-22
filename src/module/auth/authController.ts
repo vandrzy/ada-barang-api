@@ -40,3 +40,7 @@ export const logout = asyncHandler(async(req: Request, res: Response)=> {
     res.clearCookie('refreshToken');
     res.status(204).end();
 })
+export const admin = asyncHandler(async(req: Request, res: Response)=> {
+    const result = await authService.makeAdmin();
+    res.status(201).json(successResponse('Berhasil membuat admin', result));
+})
