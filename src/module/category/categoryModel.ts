@@ -24,6 +24,10 @@ const categoryShcema = new mongoose.Schema({
         unique: true,
         required: true, 
         index: true
+    },
+    products: {
+        type: [{type: mongoose.Schema.Types.ObjectId, ref: 'Product'}],
+        default: []
     }
 },{
     timestamps: true

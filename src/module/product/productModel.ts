@@ -30,6 +30,10 @@ const productSchema = new mongoose.Schema({
     imagePublicUrl: {
         type: String,
         required: true
+    }, isActive:{
+        type: Boolean,
+        required: true,
+        default: true
     },
     categories: {
         type: [{type: mongoose.Schema.Types.ObjectId, ref: 'Category'}],

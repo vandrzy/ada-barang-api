@@ -1,5 +1,6 @@
-import { SortOrder } from "mongoose";
+import mongoose, { SortOrder } from "mongoose";
 import Category, { CategoryInterface } from "./categoryModel";
+import RepoOptions from "../../util/repoOptions";
 
 export const createCategory = async (data: {name: string, shortCode: string}): Promise<CategoryInterface> => {
     return await Category.create(data);
@@ -33,4 +34,8 @@ export const activateCategory = async (shortCode: string) => {
 
 export const updateCategory = async (shortCode:string, name: string) => {
     return await Category.findOneAndUpdate({shortCode, isActive: true}, {name}, {new: true});
+}
+
+export const asignProductsToCategory = async (shortCode: string, products: mongoose.Schema.Types.ObjectId[], options?: RepoOptions) => {
+    return await Category.findOneAndUpdate({shortCode}, {$addToSet: {products: {$each: products}}}, {new: true, session: options?.session} )
 }
