@@ -19,7 +19,7 @@ export const uploadToCloudinary = (buffer: Buffer, folder: string): Promise<Uplo
     });
 };
 
-export const destroyFromCloudinary = (publicId: string): Promise<DeleteApiResponse> => {
+export const deleteFromCloudinary = (publicId: string): Promise<DeleteApiResponse> => {
     return new Promise((resolve, reject) => {
         cloudinary.uploader.destroy(
             publicId,

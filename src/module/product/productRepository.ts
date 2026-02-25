@@ -1,5 +1,5 @@
 import RepoOptions from "../../util/repoOptions";
-import Product from "./productModel";
+import Product, { ProductInterface } from "./productModel";
 import mongoose from "mongoose";
 
 export const create = async (data: {
@@ -8,10 +8,15 @@ export const create = async (data: {
     imagePublicId?: string,
     imagePublicUrl?: string,
     shortCode: string
-}, options: RepoOptions) => {
-    return await Product.create(data, {$session: options.session});
+}, options: RepoOptions):Promise<ProductInterface> => {
+    const [product] =  await Product.create([data], {session: options.session});
+    return product!;
 }
 
-export const asignCategoriesToProduct = async (shortCode: string, categories: mongoose.Schema.Types.ObjectId[], options?: RepoOptions) => {
+export const asignCategoriesToProduct = async (shortCode: string, categories: mongoose.Types.ObjectId[], options?: RepoOptions) => {
     return await Product.findOneAndUpdate({shortCode}, {$addToSet: {categories: {$each: categories}}}, {new: true, session: options?.session})
+}
+
+export const findByShortCode = async (shortCode: string)=> {
+    return await Product.findOne({shortCode})
 }

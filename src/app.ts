@@ -6,6 +6,7 @@ import connectDB from './config/db';
 import globalErrorHandler from './util/globalErrorHandler';
 import authRoute from './module/auth/authRoute';
 import categoryRoute from './module/category/categoryRoute';
+import productRoute from './module/product/productRoute';
 import cokkieParser from 'cookie-parser';
 dotenv.config();
 
@@ -17,6 +18,7 @@ app.use(cors());
 app.use(cokkieParser());
 app.use('/api/auth', authRoute);
 app.use('/api/category', categoryRoute);
+app.use('/api/product', productRoute);
 
 
 app.use(globalErrorHandler);

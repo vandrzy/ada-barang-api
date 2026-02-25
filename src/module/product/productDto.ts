@@ -1,7 +1,5 @@
-
-
-export interface CreateProductDto{
+export interface CreateProductInterface {
     name: string;
     description?: string;
-    shortCode: string;
+    categories: string[];
 }

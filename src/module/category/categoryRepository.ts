@@ -1,4 +1,4 @@
-import mongoose, { SortOrder } from "mongoose";
+import mongoose, { SortOrder, Types } from "mongoose";
 import Category, { CategoryInterface } from "./categoryModel";
 import RepoOptions from "../../util/repoOptions";
 
@@ -36,6 +36,11 @@ export const updateCategory = async (shortCode:string, name: string) => {
     return await Category.findOneAndUpdate({shortCode, isActive: true}, {name}, {new: true});
 }
 
-export const asignProductsToCategory = async (shortCode: string, products: mongoose.Schema.Types.ObjectId[], options?: RepoOptions) => {
-    return await Category.findOneAndUpdate({shortCode}, {$addToSet: {products: {$each: products}}}, {new: true, session: options?.session} )
+export const asignProductsToCategory = async (shortCodes: string[], productId: mongoose.Types.ObjectId, options?: RepoOptions) => {
+    return await Category.updateMany({shortCode: {$in: shortCodes}}, {$addToSet: {products: productId}}, {session: options?.session} )
+}
+
+export const getCategoriesIdByShortCode = async (shortCode: string[], options?: RepoOptions) : Promise<Types.ObjectId[]> => {
+    const categoriesId = await Category.find({shortCode: {$in: shortCode}, isActive: true}, {_id: 1}, {session: options?.session})
+    return categoriesId.map(category => category._id);
 }
