@@ -9,3 +9,8 @@ export interface DeleteCategoriesFromProductRequest {
 export interface ShortCodeProductParams {
     shortCode: string;
 }
+export interface UpdateProductRequestBody{
+    name?: string;
+    description?: string;
+    addCategories?: string[];
+}

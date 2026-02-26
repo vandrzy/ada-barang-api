@@ -28,3 +28,7 @@ export const removeCategoryFromProduct = async (shortCode: string, categoriesId:
 export const deleteProduct = async (shortCode: string) => {
     return await Product.findOneAndUpdate({shortCode, isActive: true}, {isActive: false}, {new: true});
 }
+
+export const updateProduct = async (shortCode: string, data: {name?: string, description?: string, imagePublicId?: string, imagePublicUrl?: string}, options: RepoOptions) => {
+    return await Product.findOneAndUpdate({shortCode, isActive: true}, {data}, {new: true, session: options.session})
+}

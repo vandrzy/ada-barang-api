@@ -59,6 +59,48 @@ export const deleteProduct = async (shortCode: string) => {
     if (!result) throw new AppError('Produk tidak ada', 404)
 } 
 
+export const updateProduct = async (shortCode: string, name?: string, categories?: string[], image?: Express.Multer.File, description?: string)=> {
+    const session = await mongoose.startSession();
+    let updateDataProduct : {name?: string, description?: string, imagePublicId?: string, imagePublicUrl?: string} = {};
+    const product = await productRepository.findByShortCode(shortCode);
+    if (!product) throw new AppError('Produk tidak ada', 404)
+    if (image){
+        const uploadResult = await uploadToCloudinary(image.buffer, 'adabarang/product');
+        updateDataProduct.imagePublicId = uploadResult.public_id;
+        updateDataProduct.imagePublicUrl = uploadResult.secure_url;
+    }
+    if (name){
+        updateDataProduct.name = name;
+    }
+    if (description){
+        updateDataProduct.description = description;
+    } 
+    try{
+        await session.withTransaction(async () => {
+            if (categories){
+                const categoriesId = await getCategoriesIdByShortCode(categories, {session});
+                if (!categoriesId) throw new AppError('Kategori tidak ada', 404);
+                await Promise.all([
+                    productRepository.asignCategoriesToProduct(shortCode, categoriesId, {session}),
+                    asignProductsToCategory(categories, product._id, {session})
+                ]);
+            }
+            if (image || name || description){
+                await productRepository.updateProduct(shortCode, updateDataProduct, {session})
+            }
+            await deleteFromCloudinary(product.imagePublicId);            
+        })
+    } catch(error){
+        if (updateDataProduct.imagePublicId){
+            await deleteFromCloudinary(updateDataProduct.imagePublicId);
+        }
+    }
+    finally{
+        session.endSession();
+    }
+    return await productRepository.findByShortCode(shortCode);
+}
+
 const createShortCode = async () : Promise<string> => {
     let shortCode: string;
     let exist = true;
