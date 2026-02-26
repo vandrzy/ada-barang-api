@@ -32,3 +32,16 @@ export const validateQuery = <T extends ZodRawShape>(schema: ZodObject<T>): Requ
     req.validatedQuery = result.data;
     next();
 }    
+
+export const validateParams = <T extends ZodRawShape>(schema: ZodObject<T>): RequestHandler => (req: Request, res:Response, next: NextFunction) => {
+    const result = schema.safeParse(req.params);
+    if (!result.success) {
+        console.error({
+            error: result.error.flatten,
+            message: result.error.message
+        })
+        return next(new AppError('Invalid request params', 400));
+    }
+    req.params = result.data as any;
+    next();
+}

@@ -17,6 +17,14 @@ export const asignCategoriesToProduct = async (shortCode: string, categories: mo
     return await Product.findOneAndUpdate({shortCode}, {$addToSet: {categories: {$each: categories}}}, {new: true, session: options?.session})
 }
 
-export const findByShortCode = async (shortCode: string)=> {
-    return await Product.findOne({shortCode})
+export const findByShortCode = async (shortCode: string, options?: RepoOptions)=> {
+    return await Product.findOne({shortCode}, {session: options?.session})
+}
+
+export const removeCategoryFromProduct = async (shortCode: string, categoriesId: mongoose.Types.ObjectId[], options: RepoOptions) => {
+    return await Product.findOneAndUpdate({shortCode, isActive: true}, {$pull: {categories: {$in: categoriesId}}}, {new: true, session: options.session})
+}
+
+export const deleteProduct = async (shortCode: string) => {
+    return await Product.findOneAndUpdate({shortCode, isActive: true}, {isActive: false}, {new: true});
 }

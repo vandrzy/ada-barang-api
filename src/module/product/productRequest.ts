@@ -1,4 +1,4 @@
-import z from "zod";
+import z, { array } from "zod";
 
 export const createProductRequest = z.object({
     name: z
@@ -19,3 +19,12 @@ export const createProductRequest = z.object({
     )
     
 })
+
+
+export const deleteCategoriesFromProductBody = z.object({
+  categoriesShortCode: z.string().transform((val) => JSON.parse(val)).pipe(z.array(z.string().min(1, 'Kategori tidak boleh kosong')).min(1, 'Minimal 1 ketegori'))
+});
+
+export const deleteCategoriesFromProductParams = z.object({
+  shortCode: z.string().min(5)
+});

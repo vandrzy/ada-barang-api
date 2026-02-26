@@ -3,3 +3,9 @@ export interface CreateProductInterface {
     description?: string;
     categories: string[];
 }
+export interface DeleteCategoriesFromProductRequest {
+    categoriesShortCode: string[];
+}
+export interface DeleteCategoriesFromProductParams {
+    shortCode: string;
+}

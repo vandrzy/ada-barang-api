@@ -44,3 +44,7 @@ export const getCategoriesIdByShortCode = async (shortCode: string[], options?: 
     const categoriesId = await Category.find({shortCode: {$in: shortCode}, isActive: true}, {_id: 1}, {session: options?.session})
     return categoriesId.map(category => category._id);
 }
+
+export const removeProductFromCategory = async (shortCode: string[], productId: mongoose.Types.ObjectId, options?: RepoOptions) => {
+    return await Category.updateMany({shortCode: {$in: shortCode}}, {$pull: {products: productId}}, {session: options?.session})
+}
