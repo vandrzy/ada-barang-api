@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
 import { asyncHandler } from '../../util/asyncHandler';
 import * as productService from './productService';
-import { CreateProductInterface, DeleteCategoriesFromProductParams, DeleteCategoriesFromProductRequest } from './productDto';
+import { CreateProductInterface, DeleteCategoriesFromProductRequest, ShortCodeProductParams } from './productDto';
 import { successResponse } from '../../util/response';
 
 export const createProduct = asyncHandler(async (req: Request<{}, {}, CreateProductInterface>, res: Response) => {
@@ -17,8 +17,15 @@ export const createProduct = asyncHandler(async (req: Request<{}, {}, CreateProd
 })
 
 export const deleteCategoriesFromProduct = asyncHandler(async (req: Request<{}, {}, DeleteCategoriesFromProductRequest>, res: Response) => {
-  const {shortCode} =req.params as DeleteCategoriesFromProductParams;
+  const {shortCode} =req.params as ShortCodeProductParams;
   const {categoriesShortCode} = req.body;
 
   const result = await productService.deleteProductFromCategory(shortCode, categoriesShortCode);
+  res.status(200).json(successResponse('Berhasil menghapus ketegori', result))
+})
+
+export const deleteProduct = asyncHandler(async (req: Request<{}>, res: Response) => {
+  const {shortCode} = req.params as ShortCodeProductParams;
+  const result = await productService.deleteProduct(shortCode);
+  res.status(200).json(successResponse('Berhasil menghapus produk'));
 })

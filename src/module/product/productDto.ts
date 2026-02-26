@@ -6,6 +6,6 @@ export interface CreateProductInterface {
 export interface DeleteCategoriesFromProductRequest {
     categoriesShortCode: string[];
 }
-export interface DeleteCategoriesFromProductParams {
+export interface ShortCodeProductParams {
     shortCode: string;
 }

@@ -54,6 +54,11 @@ export const deleteProductFromCategory = async (productShortCode: string, catego
     return await productRepository.findByShortCode(productShortCode);
 }
 
+export const deleteProduct = async (shortCode: string) => {
+    const result = await productRepository.deleteProduct(shortCode);
+    if (!result) throw new AppError('Produk tidak ada', 404)
+} 
+
 const createShortCode = async () : Promise<string> => {
     let shortCode: string;
     let exist = true;
