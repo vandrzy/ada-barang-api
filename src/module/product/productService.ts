@@ -117,6 +117,12 @@ export const getAllProducts = async(name: string| undefined, isActive: boolean, 
     }
 }
 
+export const getProductByShortCode = async(shortCode: string) => {
+    const product = await productRepository.findByShortCode(shortCode);
+    if (!product) throw new AppError('Produk tidak ada', 404);
+    return product;
+}
+
 const createShortCode = async () : Promise<string> => {
     let shortCode: string;
     let exist = true;
