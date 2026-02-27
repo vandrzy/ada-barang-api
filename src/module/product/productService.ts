@@ -4,6 +4,7 @@ import { deleteFromCloudinary, uploadToCloudinary } from "../../util/cloudinaryU
 import * as productRepository from './productRepository';
 import { nanoid } from "nanoid";
 import { getCategoriesIdByShortCode, asignProductsToCategory, removeProductFromCategory } from "../category/categoryRepository";
+import { ProductsResponse } from "./productDto";
 
 export const createProduct = async (name: string, categories: string[], image: Express.Multer.File, description?: string) => {
     if (!image) { 
@@ -99,6 +100,21 @@ export const updateProduct = async (shortCode: string, name?: string, categories
         session.endSession();
     }
     return await productRepository.findByShortCode(shortCode);
+}
+
+export const getAllProducts = async(name: string| undefined, isActive: boolean, sortBy: string, order: string, limit: number, offset: number): Promise<ProductsResponse> => {
+    const products = await productRepository.getAllProduct(name, isActive, sortBy, order, limit, offset);
+    if (products.length === 0) throw new AppError('Produk belum ada', 404);
+    return{
+        search: name,
+        isActive,
+        sortBy,
+        order,
+        limit,
+        offset,
+        products
+
+    }
 }
 
 const createShortCode = async () : Promise<string> => {

@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
 import { asyncHandler } from '../../util/asyncHandler';
 import * as productService from './productService';
-import { CreateProductInterface, DeleteCategoriesFromProductRequest, ShortCodeProductParams, UpdateProductRequestBody } from './productDto';
+import { CreateProductInterface, DeleteCategoriesFromProductRequest, GetAllProductsRequest, ShortCodeProductParams, UpdateProductRequestBody } from './productDto';
 import { failedResponse, successResponse } from '../../util/response';
 
 export const createProduct = asyncHandler(async (req: Request<{}, {}, CreateProductInterface>, res: Response) => {
@@ -39,4 +39,11 @@ export const updateProduct = asyncHandler(async (req: Request<{}, {}, UpdateProd
   const image = req.file
   const result = await productService.updateProduct(shortCode, name, addCategories, image, description);
   res.status(200).json(successResponse('Berhasil melakukan update produk', result));
+})
+
+export const getProducts = asyncHandler(async (req:Request<{}>, res: Response) => {
+  const {name, isActive, sortBy, order, limit, offset} = req.validatedQuery as GetAllProductsRequest;
+  const result = await productService.getAllProducts(name, isActive, sortBy, order, limit, offset);
+  res.status(200).json(successResponse('Berhasil mengambil data produk', result));
+
 })

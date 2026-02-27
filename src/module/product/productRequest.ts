@@ -45,3 +45,15 @@ export const deleteCategoriesFromProductBody = z.object({
 export const shortCodeProductParams = z.object({
   shortCode: z.string().min(5)
 });
+
+export const getAllProductsQuery = z.object({
+    name: z.string().min(3).max(10).optional(),
+    isActive: z.string().optional().transform(val => {
+        if (val === undefined) return true;
+        return val === 'true';
+    }),
+    sortBy: z.enum(['name', 'createdAt']).optional().default('name'),
+    order: z.enum(['asc', 'desc']).optional().default('asc'),
+    limit: z.coerce.number('limit harus angka').int().min(1).max(100).optional().default(5),
+    offset: z.coerce.number('offset harus angka').int().min(0).optional().default(0)
+})

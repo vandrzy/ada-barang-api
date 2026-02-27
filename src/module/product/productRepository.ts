@@ -1,6 +1,6 @@
 import RepoOptions from "../../util/repoOptions";
 import Product, { ProductInterface } from "./productModel";
-import mongoose from "mongoose";
+import mongoose, { SortOrder } from "mongoose";
 
 export const create = async (data: {
     name: string,
@@ -31,4 +31,10 @@ export const deleteProduct = async (shortCode: string) => {
 
 export const updateProduct = async (shortCode: string, data: {name?: string, description?: string, imagePublicId?: string, imagePublicUrl?: string}, options: RepoOptions) => {
     return await Product.findOneAndUpdate({shortCode, isActive: true}, {data}, {new: true, session: options.session})
+}
+
+export const getAllProduct = async (name: string| undefined, isActive: boolean, sortBy: string, order: string, limit: number, offset: number) => {
+    const orderType = order as SortOrder;
+    const filter = name? {name: {$regex: name, $options: 'i', isActive}}: {isActive};
+    return await Product.find(filter).sort({[sortBy]: orderType}).limit(limit).skip(offset);
 }
