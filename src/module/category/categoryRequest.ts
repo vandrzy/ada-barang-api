@@ -8,6 +8,10 @@ export const shortCodeCategoryQuery = z.object({
     shortCode: z.string().min(7).max(10)
 });
 
+export const shortCodeCategoryParams = z.object({
+    shortCode: z.string().min(7).max(10)
+});
+
 export const updateCategoryRequest = z.object({
     name: z.string().min(3).max(10).optional()
 })

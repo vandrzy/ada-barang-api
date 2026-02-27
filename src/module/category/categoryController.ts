@@ -34,3 +34,9 @@ export const updateCategory = asyncHandler(async(req: Request<{}, {}, UpdateCate
     const result = await categoryService.updateCategory(shortCode, name);
     res.status(200).json(successResponse('Berhasil mengedit kategori', result));
 })
+
+export const getCategoryByShortCode = asyncHandler(async(req: Request<{}>, res: Response) => {
+    const {shortCode} = req.params as ShortCodeCategoryRequest;
+    const result = await categoryService.getCategyByShortCode(shortCode);
+    res.status(200).json(successResponse('Berhasil mengambil data kategori', result))
+})

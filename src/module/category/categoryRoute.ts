@@ -11,5 +11,5 @@ route.get('/', loginMiddleware.authMiddleware, loginMiddleware.authorizeMiddlewa
 route.delete('/', loginMiddleware.authMiddleware, loginMiddleware.authorizeMiddleware(['admin']), requestMiddleware.validateQuery(categoryRequest.shortCodeCategoryQuery), categoryController.deleteCategory);
 route.patch('/activate', loginMiddleware.authMiddleware, loginMiddleware.authorizeMiddleware(['admin']), requestMiddleware.validateQuery(categoryRequest.shortCodeCategoryQuery), categoryController.activateCategory);
 route.patch('/', loginMiddleware.authMiddleware, loginMiddleware.authorizeMiddleware(['admin']), requestMiddleware.validateQuery(categoryRequest.shortCodeCategoryQuery), requestMiddleware.validateBody(categoryRequest.updateCategoryRequest), categoryController.updateCategory);
-
+route.get('/:shortCode', loginMiddleware.authMiddleware, loginMiddleware.authorizeMiddleware(['admin', 'user']),requestMiddleware.validateParams(categoryRequest.shortCodeCategoryParams), categoryController.getCategoryByShortCode);
 export default route;

@@ -43,6 +43,12 @@ export const updateCategory = async(shortCode: string, name: string) => {
     return updatedCategory;
 }
 
+export const getCategyByShortCode = async (shortCode: string) => {
+    const category = await categoryRepository.getCategoryByShortCode(shortCode);
+    if (!category) throw new AppError('Kategori tidak ada', 404);
+    return category;
+}
+
 const generateShortCode = async(): Promise<string> => {
     let shortCode: string;
     let exist = true;
