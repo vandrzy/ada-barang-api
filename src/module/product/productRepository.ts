@@ -18,7 +18,7 @@ export const asignCategoriesToProduct = async (shortCode: string, categories: mo
 }
 
 export const findByShortCode = async (shortCode: string, options?: RepoOptions)=> {
-    return await Product.findOne({shortCode}, {session: options?.session})
+    return await Product.findOne({shortCode}, null, {session: options?.session})
 }
 
 export const removeCategoryFromProduct = async (shortCode: string, categoriesId: mongoose.Types.ObjectId[], options: RepoOptions) => {

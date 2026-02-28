@@ -7,7 +7,7 @@ import { upload } from "../../middlewares/imageMiddleware";
 
 const route = Router();
 
-route.post('/', loginMiddleware.authMiddleware, loginMiddleware.authorizeMiddleware(['admin']), requestMiddleware.validateBody(productRequest.createProductRequest), upload.single('image'), productController.createProduct);
+route.post('/', loginMiddleware.authMiddleware, loginMiddleware.authorizeMiddleware(['admin']), upload.single('image'), requestMiddleware.validateBody(productRequest.createProductRequest),  productController.createProduct);
 route.delete('/:shortCode/category', loginMiddleware.authMiddleware, loginMiddleware.authorizeMiddleware(['admin']), requestMiddleware.validateParams(productRequest.shortCodeProductParams), requestMiddleware.validateBody(productRequest.deleteCategoriesFromProductBody), productController.deleteCategoriesFromProduct);
 route.delete('/:shortCode', loginMiddleware.authMiddleware, loginMiddleware.authorizeMiddleware(['admin']), requestMiddleware.validateParams(productRequest.shortCodeProductParams), productController.deleteProduct);
 route.post('/:shortCode', loginMiddleware.authMiddleware, loginMiddleware.authorizeMiddleware(['admin']), requestMiddleware.validateParams(productRequest.shortCodeProductParams), requestMiddleware.validateBody(productRequest.updateProductBody), upload.single('image'), productController.updateProduct);
